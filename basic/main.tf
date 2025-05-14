@@ -24,13 +24,13 @@ variable "gcp_project" {
 variable "main_project" {
   description = "Main GCP project ID (can impersonate)"
   type        = string
-  default     = "scaleopss"
+  default     = "scaleops-test"
 }
 
 variable "prefix" {
   description = "Resource name prefix"
   type        = string
-  default     = "scaleops_testt"
+  default     = "scaleopss"
 }
 
 variable "package" {
