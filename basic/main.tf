@@ -49,12 +49,12 @@ variable "gcp_region" {
 # SERVICE ACCOUNTS
 #######################
 resource "google_service_account" "readonly" {
-  account_id   = "${var.prefix}_${var.package}_readonly"
+  account_id   = "${var.prefix}-${var.package}-readonly"
   display_name = "Read_only Service Account"
 }
 
 resource "google_service_account" "monitoring" {
-  account_id   = "${var.prefix}_${var.package}_monitoring"
+  account_id   = "${var.prefix}-${var.package}-monitoring"
   display_name = "Monitoring Service Account"
 }
 
