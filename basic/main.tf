@@ -30,7 +30,7 @@ variable "main_project" {
 variable "prefix" {
   description = "Resource name prefix"
   type        = string
-  default     = "scaleops-testt"
+  default     = "scaleops_testt"
 }
 
 variable "package" {
@@ -49,12 +49,12 @@ variable "gcp_region" {
 # SERVICE ACCOUNTS
 #######################
 resource "google_service_account" "readonly" {
-  account_id   = "${var.prefix}-${var.package}-readonly"
-  display_name = "Read-only Service Account"
+  account_id   = "${var.prefix}_${var.package}_readonly"
+  display_name = "Read_only Service Account"
 }
 
 resource "google_service_account" "monitoring" {
-  account_id   = "${var.prefix}-${var.package}-monitoring"
+  account_id   = "${var.prefix}_${var.package}_monitoring"
   display_name = "Monitoring Service Account"
 }
 
