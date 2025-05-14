@@ -50,7 +50,7 @@ variable "gcp_region" {
 #######################
 resource "google_service_account" "readonly" {
   account_id   = "${var.prefix}-${var.package}-readonly"
-  display_name = "Read_only Service Account"
+  display_name = "Read-only Service Account"
 }
 
 resource "google_service_account" "monitoring" {
@@ -138,17 +138,28 @@ resource "google_project_iam_member" "monitoring_custom" {
 #######################
 # SERVICE ACCOUNT IMPERSONATION
 #######################
-# Allow only the main_project to impersonate
-resource "google_service_account_iam_member" "readonly_impersonation" {
+# Use IAM_BINDING to append your main_project principal cleanly
+resource "google_service_account_iam_binding" "readonly_impersonation" {
   service_account_id = google_service_account.readonly.name
   role               = "roles/iam.serviceAccountUser"
-  member             = "serviceAccount:${var.main_project}@${var.main_project}.iam.gserviceaccount.com"
+
+  members = [
+    "serviceAccount:${var.main_project}@${var.main_project}.iam.gserviceaccount.com",
+  ]
+
+  # ensure SA exists first
+  depends_on = [google_service_account.readonly]
 }
 
-resource "google_service_account_iam_member" "monitoring_impersonation" {
+resource "google_service_account_iam_binding" "monitoring_impersonation" {
   service_account_id = google_service_account.monitoring.name
   role               = "roles/iam.serviceAccountUser"
-  member             = "serviceAccount:${var.main_project}@${var.main_project}.iam.gserviceaccount.com"
+
+  members = [
+    "serviceAccount:${var.main_project}@${var.main_project}.iam.gserviceaccount.com",
+  ]
+
+  depends_on = [google_service_account.monitoring]
 }
 
 #######################
