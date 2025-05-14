@@ -42,7 +42,7 @@ variable "package" {
 variable "gcp_region" {
   description = "GCP region (for provider settings)"
   type        = string
-  default     = "us-central1"
+  default     = "us-east1"
 }
 
 #######################
