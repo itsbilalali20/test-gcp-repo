@@ -24,7 +24,7 @@ variable "gcp_project" {
 variable "main_project" {
   description = "Main GCP project ID (can impersonate)"
   type        = string
-  default     = "scaleops-test"
+  default     = "scaleopss"
 }
 
 variable "prefix" {
