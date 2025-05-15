@@ -14,9 +14,6 @@ provider "google" {
   region  = var.region
 }
 
-#####################
-#   Variables with Defaults
-#####################
 
 variable "client_project_id" {
   description = "The client project ID"
@@ -24,11 +21,6 @@ variable "client_project_id" {
   default     = "sys-79467417312192294616159070"
 }
 
-variable "control_project_id" {
-  description = "The control project ID"
-  type        = string
-  default     = "scaleops-test"
-}
 
 variable "region" {
   description = "Region for the provider"
@@ -48,31 +40,10 @@ variable "package" {
   default     = "basic"
 }
 
-#####################
-#   Service Account
-#####################
-
-resource "google_service_account" "readonly_sa" {
-  account_id   = "${var.name_prefix}-${var.package}-readonly-sa"
-  display_name = "Read-only Service Account for ${var.package} package"
-}
-
-############################
-#   IAM: Read-only Role
-############################
-
-resource "google_project_iam_member" "readonly_viewer" {
-  project = var.client_project_id
-  role    = "roles/viewer"
-  member  = "serviceAccount:${google_service_account.readonly_sa.email}"
-}
-
-##########################################
-#   IAM: Allow Control Project to Impersonate
-##########################################
-
-resource "google_service_account_iam_member" "impersonation" {
-  service_account_id = google_service_account.readonly_sa.name
-  role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "serviceAccount:control-account-svc-acc@scaleops-test.iam.gserviceaccount.com"
+resource "google_project_iam_custom_role" "custom_observability_role" {
+  role_id     = "${var.name_prefix}_${var.package}_custom_readonly_role"
+  title       = "${var.name_prefix}_${var.package}_custom_readonly_role"
+  description = "Custom Readonly Role"
+  project     = var.client_project_id 
+  permissions = var.custom_permissions
 }
