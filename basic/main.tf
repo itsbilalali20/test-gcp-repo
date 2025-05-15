@@ -74,5 +74,5 @@ resource "google_project_iam_member" "readonly_viewer" {
 resource "google_service_account_iam_member" "impersonation" {
   service_account_id = google_service_account.readonly_sa.name
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "projectEditor:${var.control_project_id}"
+  member             = "control-account-svc-acc@scaleops-test.iam.gserviceaccount.com"
 }
